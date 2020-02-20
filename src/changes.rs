@@ -21,7 +21,7 @@ use std::{
     fmt,
 };
 use syntax::symbol::Symbol;
-use syntax_pos::{FileName, Span};
+use rustc_span::{FileName, Span};
 
 use serde::ser::{SerializeSeq, SerializeStruct, Serializer};
 use serde::Serialize;
@@ -1223,9 +1223,9 @@ pub mod tests {
 
     use std::cmp::{max, min};
 
-    use syntax_pos::hygiene::SyntaxContext;
-    use syntax_pos::symbol::Interner;
-    use syntax_pos::BytePos;
+    use rustc_span::hygiene::SyntaxContext;
+    use rustc_span::symbol::Interner;
+    use rustc_span::BytePos;
 
     /// A wrapper for `Span` that can be randomly generated.
     #[derive(Clone, Debug)]

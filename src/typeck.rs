@@ -162,7 +162,7 @@ impl<'a, 'tcx> TypeComparisonContext<'a, 'tcx> {
     /// Construct a set of subsitutions for an item, which replaces all region and type variables
     /// with inference variables, with the exception of `Self`.
     pub fn compute_target_infer_substs(&self, target_def_id: DefId) -> SubstsRef<'tcx> {
-        use syntax_pos::DUMMY_SP;
+        use rustc_span::DUMMY_SP;
 
         let has_self = self.infcx.tcx.generics_of(target_def_id).has_self;
 

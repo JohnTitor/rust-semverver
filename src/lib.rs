@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_lines)]
 #![deny(warnings)]
 extern crate rustc;
+extern crate rustc_span;
 extern crate syntax;
-extern crate syntax_pos;
 
 mod changes;
 mod mapping;
