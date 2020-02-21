@@ -4,9 +4,8 @@
 
 extern crate curl;
 extern crate getopts;
-extern crate serde;
 #[macro_use]
-extern crate serde_derive;
+extern crate serde;
 extern crate serde_json;
 
 use cargo::core::{Package, PackageId, Source, SourceId, Workspace};
