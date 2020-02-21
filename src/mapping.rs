@@ -41,6 +41,7 @@ fn assert_inherent_entry_members_impl_eq() {
     assert_impl_eq::<Name>();
 }
 
+#[allow(clippy::derive_hash_xor_eq)]
 impl Hash for InherentEntry {
     fn hash<H: Hasher>(&self, hasher: &mut H) {
         self.parent_def_id.hash(hasher);
