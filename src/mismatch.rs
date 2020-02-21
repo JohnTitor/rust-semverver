@@ -7,7 +7,6 @@
 use crate::mapping::IdMapping;
 use log::debug;
 use rustc::{
-    hir::def::{DefKind, Res},
     ty::{
         self,
         relate::{Relate, RelateResult, TypeRelation},
@@ -16,6 +15,7 @@ use rustc::{
         Visibility::Public,
     },
 };
+use rustc_hir::def::{DefKind, Res};
 use std::collections::{HashMap, HashSet, VecDeque};
 
 /// A relation searching for items appearing at the same spot in a type.

@@ -10,17 +10,17 @@
 //! path changes.
 
 use rustc::{
-    hir::def_id::DefId,
     session::Session,
     ty::{error::TypeError, Predicate},
 };
+use rustc_hir::def_id::DefId;
 use semver::Version;
 use std::{
     cmp::Ordering,
     collections::{BTreeMap, BTreeSet, HashMap},
     fmt,
 };
-use syntax::symbol::Symbol;
+use rustc_span::symbol::Symbol;
 use rustc_span::{FileName, Span};
 
 use serde::ser::{SerializeSeq, SerializeStruct, Serializer};
@@ -1219,7 +1219,7 @@ pub mod tests {
     extern crate quickcheck;
     use quickcheck::*;
 
-    use rustc::hir::def_id::DefId;
+    use rustc_hir::def_id::DefId;
 
     use std::cmp::{max, min};
 
@@ -1257,7 +1257,7 @@ pub mod tests {
 
     impl Arbitrary for DefId_ {
         fn arbitrary<G: Gen>(g: &mut G) -> DefId_ {
-            use rustc::hir::def_id::{CrateNum, DefIndex};
+            use rustc_hir::def_id::{CrateNum, DefIndex};
 
             let a: u32 = Arbitrary::arbitrary(g);
             let b: u32 = Arbitrary::arbitrary(g);

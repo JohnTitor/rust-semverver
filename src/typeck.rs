@@ -10,9 +10,7 @@ use crate::{
 };
 use log::debug;
 use rustc::{
-    hir::def_id::DefId,
-    infer::InferCtxt,
-    traits::{FulfillmentContext, FulfillmentError, Obligation, ObligationCause, TraitEngine},
+    traits::ObligationCause,
     ty::{
         error::TypeError,
         fold::TypeFoldable,
@@ -20,6 +18,9 @@ use rustc::{
         GenericParamDefKind, ParamEnv, Predicate, TraitRef, Ty, TyCtxt,
     },
 };
+use rustc_infer::traits::{FulfillmentContext, FulfillmentError, Obligation, TraitEngine};
+use rustc_infer::infer::InferCtxt;
+use rustc_hir::def_id::DefId;
 
 /// The context in which bounds analysis happens.
 pub struct BoundContext<'a, 'tcx: 'a> {
@@ -43,7 +44,7 @@ impl<'a, 'tcx> BoundContext<'a, 'tcx> {
 
     /// Register the bounds of an item.
     pub fn register(&mut self, checked_def_id: DefId, substs: SubstsRef<'tcx>) {
-        use rustc::traits::{normalize, Normalized, SelectionContext};
+        use rustc_infer::traits::{normalize, Normalized, SelectionContext};
 
         let cause = ObligationCause::dummy();
         let mut selcx = SelectionContext::new(self.infcx);
@@ -70,10 +71,11 @@ impl<'a, 'tcx> BoundContext<'a, 'tcx> {
     /// Register the trait bound represented by a `TraitRef`.
     pub fn register_trait_ref(&mut self, checked_trait_ref: TraitRef<'tcx>) {
         use rustc::ty::{Binder, TraitPredicate};
+        use rustc_hir::Constness;
 
         let predicate = Predicate::Trait(Binder::bind(TraitPredicate {
             trait_ref: checked_trait_ref,
-        }));
+        }),Constness::NotConst);
         let obligation = Obligation::new(ObligationCause::dummy(), self.given_param_env, predicate);
         self.fulfill_cx
             .register_predicate_obligation(self.infcx, obligation);
@@ -209,8 +211,8 @@ impl<'a, 'tcx> TypeComparisonContext<'a, 'tcx> {
         orig: Ty<'tcx>,
         target: Ty<'tcx>,
     ) -> Option<TypeError<'tcx2>> {
-        use rustc::infer::outlives::env::OutlivesEnvironment;
-        use rustc::infer::{InferOk, SuppressRegionErrors};
+        use rustc_infer::infer::outlives::env::OutlivesEnvironment;
+        use rustc_infer::infer::{InferOk, SuppressRegionErrors};
         use rustc::middle::region::ScopeTree;
         use rustc::ty::Lift;
 

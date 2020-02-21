@@ -483,7 +483,11 @@ impl<'a> WorkInfo<'a> {
         opts.build_config.build_plan = true;
 
         if let Some(target) = matches.opt_str("target") {
-            opts.build_config.requested_target = Some(target);
+            let target = cargo::core::compiler::CompileTarget::new(&target);
+            if let Ok(target) = target {
+                let kind = cargo::core::compiler::CompileKind::Target(target);
+                opts.build_config.requested_kind = kind;
+            }
         }
 
         if let Some(s) = matches.opt_str("features") {

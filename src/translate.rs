@@ -4,14 +4,14 @@
 use crate::mapping::{IdMapping, InherentEntry};
 use log::{debug, info};
 use rustc::{
-    hir::def_id::DefId,
-    infer::InferCtxt,
     ty::{
         fold::{BottomUpFolder, TypeFoldable, TypeFolder},
         subst::{GenericArg, InternalSubsts, SubstsRef},
         GenericParamDefKind, ParamEnv, Predicate, Region, TraitRef, Ty, TyCtxt,
     },
 };
+use rustc_infer::infer::InferCtxt;
+use rustc_hir::def_id::DefId;
 use std::collections::HashMap;
 
 /// The context in which `DefId` translation happens.
@@ -201,7 +201,7 @@ impl<'a, 'tcx> TranslationContext<'a, 'tcx> {
                     }
                     TyKind::Dynamic(preds, region) => {
                         // hacky error catching mechanism
-                        use rustc::hir::def_id::CRATE_DEF_INDEX;
+                        use rustc_hir::def_id::CRATE_DEF_INDEX;
                         use std::cell::Cell;
 
                         let success = Cell::new(true);
@@ -369,7 +369,7 @@ impl<'a, 'tcx> TranslationContext<'a, 'tcx> {
         };
 
         Some(match predicate {
-            Predicate::Trait(trait_predicate) => Predicate::Trait(Binder::bind(
+            Predicate::Trait(trait_predicate, constness) => Predicate::Trait(Binder::bind(
                 if let Some((target_def_id, target_substs)) = self.translate_orig_substs(
                     index_map,
                     trait_predicate.skip_binder().trait_ref.def_id,
@@ -384,7 +384,8 @@ impl<'a, 'tcx> TranslationContext<'a, 'tcx> {
                 } else {
                     return None;
                 },
-            )),
+            ),
+            constness),
             /*Predicate::Equate(equate_predicate) => {
                 Predicate::Equate(equate_predicate.map_bound(|e_pred| {
                     let l = self.translate(index_map, &e_pred.0);
