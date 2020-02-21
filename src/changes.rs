@@ -14,14 +14,14 @@ use rustc::{
     ty::{error::TypeError, Predicate},
 };
 use rustc_hir::def_id::DefId;
+use rustc_span::symbol::Symbol;
+use rustc_span::{FileName, Span};
 use semver::Version;
 use std::{
     cmp::Ordering,
     collections::{BTreeMap, BTreeSet, HashMap},
     fmt,
 };
-use rustc_span::symbol::Symbol;
-use rustc_span::{FileName, Span};
 
 use serde::ser::{SerializeSeq, SerializeStruct, Serializer};
 use serde::Serialize;
@@ -306,11 +306,19 @@ pub enum ChangeType<'tcx> {
     /// A possibly public field has been added to a variant or struct.
     ///
     /// This also records whether all fields are public were public before the change.
-    VariantFieldAdded { public: bool, total_public: bool, is_enum: bool },
+    VariantFieldAdded {
+        public: bool,
+        total_public: bool,
+        is_enum: bool,
+    },
     /// A possibly public field has been removed from a variant or struct.
     ///
     /// This also records whether all fields were public before the change.
-    VariantFieldRemoved { public: bool, total_public: bool, is_enum: bool },
+    VariantFieldRemoved {
+        public: bool,
+        total_public: bool,
+        is_enum: bool,
+    },
     /// A variant or struct has changed it's style.
     ///
     /// The style could have been changed from a tuple variant/struct to a regular
@@ -671,7 +679,7 @@ impl<'a> fmt::Display for ChangeType<'a> {
             VariantFieldRemoved {
                 public: true,
                 total_public: false,
-                is_enum: true
+                is_enum: true,
             } => "public field removed from variant with private fields",
             VariantFieldRemoved {
                 public: true,

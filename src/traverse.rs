@@ -26,11 +26,11 @@ use rustc::{
         Visibility::Public,
     },
 };
-use rustc_hir::hir_id::HirId;
-use rustc_hir::def_id::DefId;
 use rustc_hir::def::{CtorKind, CtorOf, DefKind, Res, Res::Def};
-use rustc_mir::const_eval::is_const_fn;
+use rustc_hir::def_id::DefId;
+use rustc_hir::hir_id::HirId;
 use rustc_infer::infer::TyCtxtInferExt;
+use rustc_mir::const_eval::is_const_fn;
 use std::collections::{BTreeMap, HashSet, VecDeque};
 
 /// The main entry point to our analysis passes.
@@ -568,9 +568,9 @@ fn diff_traits<'tcx>(
     new: DefId,
     output: bool,
 ) {
-    use rustc_hir::Unsafety::Unsafe;
     use rustc::ty::subst::GenericArgKind::Type;
     use rustc::ty::{ParamTy, Predicate, TyS};
+    use rustc_hir::Unsafety::Unsafe;
 
     debug!(
         "diff_traits: old: {:?}, new: {:?}, output: {:?}",

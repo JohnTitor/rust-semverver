@@ -18,9 +18,9 @@ use rustc::{
         GenericParamDefKind, ParamEnv, Predicate, TraitRef, Ty, TyCtxt,
     },
 };
-use rustc_infer::traits::{FulfillmentContext, FulfillmentError, Obligation, TraitEngine};
-use rustc_infer::infer::InferCtxt;
 use rustc_hir::def_id::DefId;
+use rustc_infer::infer::InferCtxt;
+use rustc_infer::traits::{FulfillmentContext, FulfillmentError, Obligation, TraitEngine};
 
 /// The context in which bounds analysis happens.
 pub struct BoundContext<'a, 'tcx: 'a> {
@@ -73,9 +73,12 @@ impl<'a, 'tcx> BoundContext<'a, 'tcx> {
         use rustc::ty::{Binder, TraitPredicate};
         use rustc_hir::Constness;
 
-        let predicate = Predicate::Trait(Binder::bind(TraitPredicate {
-            trait_ref: checked_trait_ref,
-        }),Constness::NotConst);
+        let predicate = Predicate::Trait(
+            Binder::bind(TraitPredicate {
+                trait_ref: checked_trait_ref,
+            }),
+            Constness::NotConst,
+        );
         let obligation = Obligation::new(ObligationCause::dummy(), self.given_param_env, predicate);
         self.fulfill_cx
             .register_predicate_obligation(self.infcx, obligation);
@@ -211,10 +214,10 @@ impl<'a, 'tcx> TypeComparisonContext<'a, 'tcx> {
         orig: Ty<'tcx>,
         target: Ty<'tcx>,
     ) -> Option<TypeError<'tcx2>> {
-        use rustc_infer::infer::outlives::env::OutlivesEnvironment;
-        use rustc_infer::infer::{InferOk, SuppressRegionErrors};
         use rustc::middle::region::ScopeTree;
         use rustc::ty::Lift;
+        use rustc_infer::infer::outlives::env::OutlivesEnvironment;
+        use rustc_infer::infer::{InferOk, SuppressRegionErrors};
 
         let error = self
             .infcx

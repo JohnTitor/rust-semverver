@@ -8,12 +8,12 @@ extern crate rustc_span;
 use log::debug;
 use rustc_driver::{Callbacks, Compilation};
 use rustc_interface::{interface, Queries};
+use rustc_span::source_map::Pos;
 use semverver::run_traversal;
 use std::{
     path::Path,
     process::{exit, Command},
 };
-use rustc_span::source_map::Pos;
 
 /// Display semverver version.
 fn show_version() {

@@ -6,14 +6,12 @@
 
 use crate::mapping::IdMapping;
 use log::debug;
-use rustc::{
-    ty::{
-        self,
-        relate::{Relate, RelateResult, TypeRelation},
-        subst::SubstsRef,
-        ParamEnv, Ty, TyCtxt,
-        Visibility::Public,
-    },
+use rustc::ty::{
+    self,
+    relate::{Relate, RelateResult, TypeRelation},
+    subst::SubstsRef,
+    ParamEnv, Ty, TyCtxt,
+    Visibility::Public,
 };
 use rustc_hir::def::{DefKind, Res};
 use std::collections::{HashMap, HashSet, VecDeque};
