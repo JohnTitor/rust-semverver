@@ -1,10 +1,5 @@
 language: rust
 rust: nightly
-sudo: false
-
-notifications:
-  email:
-    on_failure: always
 
 matrix:
   fast_finish: true
@@ -17,20 +12,7 @@ matrix:
       os: osx
       osx_image: xcode10
       env: RUST_BACKTRACE=full
-    - name: "windows"
-      os: windows
 
-    # Tools:
-    - name: "rustfmt"
-      script: |
-        if rustup component add rustfmt-preview; then
-            cargo fmt --all -- --check
-        fi
-    - name: "clippy"
-      script: |
-        if rustup component add clippy-preview; then
-            cargo clippy --all -- -D clippy::pedantic
-        fi
     - name: "Shellcheck"
       script:
         - shellcheck --version
