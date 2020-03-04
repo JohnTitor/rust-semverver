@@ -7,6 +7,7 @@ use rustc::{
     hir::exports::Export,
     ty::{AssocKind, GenericParamDef, GenericParamDefKind},
 };
+use rustc_ast::ast::Name;
 use rustc_hir::{
     def::Res,
     def_id::{CrateNum, DefId},
@@ -14,7 +15,6 @@ use rustc_hir::{
 };
 use std::collections::{BTreeSet, HashMap, HashSet, VecDeque};
 use std::hash::{Hash, Hasher};
-use syntax::ast::Name;
 
 /// A description of an item found in an inherent impl.
 #[derive(Debug, PartialEq)]
@@ -113,14 +113,19 @@ impl IdMapping {
 
     /// Register two exports representing the same item across versions.
     pub fn add_export(&mut self, old: Res, new: Res) -> bool {
-        let old_def_id = old.def_id();
+        let (old_def_id, new_def_id) =
+            if let (Some(old_def_id), Some(new_def_id)) = (old.opt_def_id(), new.opt_def_id()) {
+                (old_def_id, new_def_id)
+            } else {
+                return false;
+            };
 
         if !self.in_old_crate(old_def_id) || self.toplevel_mapping.contains_key(&old_def_id) {
             return false;
         }
 
         self.toplevel_mapping.insert(old_def_id, (old, new));
-        self.reverse_mapping.insert(new.def_id(), old_def_id);
+        self.reverse_mapping.insert(new_def_id, old_def_id);
 
         true
     }
