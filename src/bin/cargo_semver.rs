@@ -206,9 +206,9 @@ fn run(config: &cargo::Config, matches: &getopts::Matches) -> Result<()> {
         return Ok(());
     }
 
-    debug!("running rust-semverver on compiled crates");
+    debug!("running rust-semververfork on compiled crates");
 
-    let mut child = Command::new("rust-semverver");
+    let mut child = Command::new("rust-semververfork");
     child
         .arg("--crate-type=lib")
         .args(&["--extern", &*format!("old={}", stable_rlib.display())])
@@ -262,7 +262,7 @@ fn run(config: &cargo::Config, matches: &getopts::Matches) -> Result<()> {
     if exit_status.success() {
         Ok(())
     } else {
-        Err(failure::err_msg("rustc-semverver errored".to_owned()))
+        Err(failure::err_msg("rustc-semververfork errored".to_owned()))
     }
 }
 
@@ -544,7 +544,7 @@ impl<'a> WorkInfo<'a> {
 /// If no crate with the exact name is present, error out.
 pub fn find_on_crates_io(crate_name: &str) -> Result<crates_io::Crate> {
     let mut handle = Easy::new();
-    handle.useragent(&format!("rust-semverver {}", env!("CARGO_PKG_VERSION")))?;
+    handle.useragent(&format!("rust-semververfork {}", env!("CARGO_PKG_VERSION")))?;
     let mut registry =
         crates_io::Registry::new_handle("https://crates.io".to_owned(), None, handle);
 

@@ -29,16 +29,16 @@ esac
 
 # install
 mkdir -p ~/rust/cargo/bin
-cp target/debug/cargo-semver ~/rust/cargo/bin
-cp target/debug/rust-semverver ~/rust/cargo/bin
+cp target/debug/cargo-semverfork ~/rust/cargo/bin
+cp target/debug/rust-semververfork ~/rust/cargo/bin
 
 # become semververver
 #
 # Note: Because we rely on rust nightly building the previously published
 #       semver can often fail.  To avoid failing the build we first check
 #       if we can compile the previously published version.
-if cargo install --root "$(mktemp -d)" semverver > /dev/null 2>/dev/null; then
-    PATH=~/rust/cargo/bin:$PATH cargo semver | tee semver_out
+if cargo install --root "$(mktemp -d)" semververfork > /dev/null 2>/dev/null; then
+    PATH=~/rust/cargo/bin:$PATH cargo semverfork | tee semver_out
     current_version="$(grep -e '^version = .*$' Cargo.toml | cut -d ' ' -f 3)"
     current_version="${current_version%\"}"
     current_version="${current_version#\"}"
@@ -53,5 +53,5 @@ if cargo install --root "$(mktemp -d)" semverver > /dev/null 2>/dev/null; then
         exit 1
     fi
 else
-  echo 'Failed to check semver-compliance of semverver.  Failed to compiled previous version.' >&2
+    echo 'Failed to check semver-compliance of semverver.  Failed to compiled previous version.' >&2
 fi
