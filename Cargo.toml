@@ -1,18 +1,14 @@
 [package]
 name = "semverver"
 description = "Automatic verification of SemVer adhrence in rust library crates"
-repository = "https://github.com/rust-dev-tools/rust-semverver"
+repository = "https://github.com/JohnTitor/rust-semverver"
 readme = "README.md"
 keywords = ["semver", "plugin"]
 categories = ["development-tools", "development-tools::cargo-plugins"]
 version = "0.1.45"
-authors = ["Inokentiy Babushkin <twk@twki.de>"]
+authors = ["Inokentiy Babushkin <twk@twki.de>", "Yuki Okushi <huyuumi.dev@gmail.com>"]
 license-file = "LICENSE"
 edition = "2018"
-
-[badges]
-travis-ci = { repository = "rust-dev-tools/rust-semverver" }
-appveyor = { repository = "rust-dev-tools/rust-semverver" }
 
 [[bin]]
 name = "cargo-semver"
