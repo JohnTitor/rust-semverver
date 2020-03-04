@@ -156,3 +156,4 @@ warning: path changes to `ShutdownLoggerError`
     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     |
     = note: added definition (technically breaking)
+
