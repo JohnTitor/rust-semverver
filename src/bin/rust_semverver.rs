@@ -12,7 +12,7 @@ use log::debug;
 use rustc_driver::{Callbacks, Compilation};
 use rustc_interface::{interface, Queries};
 use rustc_span::source_map::Pos;
-use semverver::run_analysis;
+use semververfork::run_analysis;
 use std::{
     path::Path,
     process::{exit, Command},

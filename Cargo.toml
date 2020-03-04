@@ -1,25 +1,25 @@
 [package]
-name = "semverver"
+name = "semververfork"
 description = "Automatic verification of SemVer adhrence in rust library crates"
 repository = "https://github.com/JohnTitor/rust-semverver"
 readme = "README.md"
 keywords = ["semver", "plugin"]
 categories = ["development-tools", "development-tools::cargo-plugins"]
-version = "0.1.45"
+version = "0.1.46"
 authors = ["Inokentiy Babushkin <twk@twki.de>", "Yuki Okushi <huyuumi.dev@gmail.com>"]
 license-file = "LICENSE"
 edition = "2018"
 
 [[bin]]
-name = "cargo-semver"
+name = "cargo-semverfork"
 path = "src/bin/cargo_semver.rs"
 
 [[bin]]
-name = "rust-semverver"
+name = "rust-semververfork"
 path = "src/bin/rust_semverver.rs"
 
 [[bin]]
-name = "rust-semver-public"
+name = "rust-semverfork-public"
 path = "src/bin/rust_semver_public.rs"
 
 [dependencies]
