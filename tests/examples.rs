@@ -44,7 +44,7 @@ mod features {
             Path::new(".")
                 .join("target")
                 .join("debug")
-                .join("rust-semverver")
+                .join("rust-semververfork")
                 .to_str()
                 .unwrap(),
         );

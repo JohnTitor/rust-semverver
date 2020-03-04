@@ -21,7 +21,7 @@ mod full {
             eprintln!("no path!");
         }
 
-        let mut cmd = Command::new("./target/debug/cargo-semver");
+        let mut cmd = Command::new("./target/debug/cargo-semverfork");
         cmd.args(&[
             "-S",
             &format!("{}:{}", crate_name, old_version),
