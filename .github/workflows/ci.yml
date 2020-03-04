@@ -1,0 +1,40 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build_and_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain:
+          - x86_64-pc-windows-msvc
+          - i686-pc-windows-msvc
+          - x86_64-unknown-linux-gnu
+          - x86_64-apple-darwin
+        include:
+        - toolchain: x86_64-pc-windows-msvc
+          os: windows-latest
+        - toolchain: i686-pc-windows-msvc
+          os: windows-latest
+        - toolchain: x86_64-unknown-linux-gnu
+          os: ubuntu-latest
+        - toolchain: x86_64-apple-darwin
+          os: macos-latest
+
+    name: nightly - ${{ matrix.toolchain }}
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Install nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly-${{ matrix.toolchain }}
+          profile: minimal
+          components: rustc-dev
+          override: true
+
+      - name: Run tests
+        run: sh ci/run.sh
