@@ -2,6 +2,8 @@
 
 set -ex
 
+OS=${1}
+
 export RUST_BACKTRACE=full
 #export RUST_TEST_NOCAPTURE=1
 
@@ -10,17 +12,9 @@ rustup component add rustc-dev
 cargo build
 cargo test --verbose -- --nocapture
 
-# avoid weird cygwin issues for now
-if [ -n "$APPVEYOR" ]; then
-    exit 0
-fi
-
-case "${TRAVIS_OS_NAME}" in
+case "${OS}" in
     *"linux"*)
         TEST_TARGET=x86_64-unknown-linux-gnu cargo test --verbose -- --nocapture
-        ;;
-    *"windows"*)
-        TEST_TARGET=x86_64-pc-windows-msvc cargo test --verbose -- --nocapture
         ;;
     *"macos"*)
         TEST_TARGET=x86_64-apple-darwin cargo test --verbose -- --nocapture
