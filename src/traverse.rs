@@ -236,7 +236,7 @@ fn diff_structure<'tcx>(
                             | (AssocConst, AssocConst)
                             | (Variant, Variant)
                             | (Const, Const)
-                            | (Method, Method)
+                            | (AssocFn, AssocFn)
                             | (Macro(_), Macro(_))
                             | (TraitAlias, TraitAlias)
                             | (ForeignTy, ForeignTy)
@@ -399,8 +399,8 @@ fn diff_method<'tcx>(changes: &mut ChangeSet, tcx: TyCtxt<'tcx>, old: AssocItem,
     diff_fn(
         changes,
         tcx,
-        Def(DefKind::Method, old.def_id),
-        Def(DefKind::Method, new.def_id),
+        Def(DefKind::Fn, old.def_id),
+        Def(DefKind::Fn, new.def_id),
     );
 }
 
@@ -891,7 +891,7 @@ fn diff_types<'tcx>(
             );
         }
         // functions and methods require us to compare their signatures, not types
-        Def(Fn, _) | Def(Method, _) => {
+        Def(Fn, _) | Def(AssocFn, _) => {
             let old_fn_sig = tcx.type_of(old_def_id).fn_sig(tcx);
             let new_fn_sig = tcx.type_of(new_def_id).fn_sig(tcx);
 

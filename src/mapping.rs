@@ -373,7 +373,7 @@ impl NameMapping {
                 ConstParam |
                 Static |
                 Ctor(_, _) |
-                Method |
+                AssocFn |
                 AssocConst => Some(&mut self.value_map),
                 Macro(_) => Some(&mut self.macro_map),
             },
