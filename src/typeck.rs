@@ -20,7 +20,8 @@ use rustc::{
 };
 use rustc_hir::def_id::DefId;
 use rustc_infer::infer::InferCtxt;
-use rustc_infer::traits::{FulfillmentContext, FulfillmentError, Obligation, TraitEngine};
+use rustc_infer::traits::{FulfillmentError, Obligation, TraitEngine};
+use rustc_trait_selection::traits::FulfillmentContext;
 
 /// The context in which bounds analysis happens.
 pub struct BoundContext<'a, 'tcx: 'a> {
@@ -44,7 +45,8 @@ impl<'a, 'tcx> BoundContext<'a, 'tcx> {
 
     /// Register the bounds of an item.
     pub fn register(&mut self, checked_def_id: DefId, substs: SubstsRef<'tcx>) {
-        use rustc_infer::traits::{normalize, Normalized, SelectionContext};
+        use rustc_infer::traits::Normalized;
+        use rustc_trait_selection::traits::{normalize, SelectionContext};
 
         let cause = ObligationCause::dummy();
         let mut selcx = SelectionContext::new(self.infcx);

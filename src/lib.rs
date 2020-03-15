@@ -10,6 +10,7 @@ extern crate rustc_infer;
 extern crate rustc_mir;
 extern crate rustc_span;
 extern crate rustc_traits;
+extern crate rustc_trait_selection;
 
 mod changes;
 mod mapping;
