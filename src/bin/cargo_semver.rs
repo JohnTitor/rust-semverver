@@ -80,7 +80,7 @@ fn main() {
     let config_res = config.configure(
         0, // verbose
         quiet,
-        None, // color
+        None,  // color
         false, // frozen
         false, // locked
         matches.opt_present("offline"),

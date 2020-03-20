@@ -219,7 +219,7 @@ impl<'a, 'tcx> TypeComparisonContext<'a, 'tcx> {
         use rustc::middle::region::ScopeTree;
         use rustc::ty::Lift;
         use rustc_infer::infer::outlives::env::OutlivesEnvironment;
-        use rustc_infer::infer::{InferOk, SuppressRegionErrors};
+        use rustc_infer::infer::{InferOk, RegionckMode};
 
         let error = self
             .infcx
@@ -248,7 +248,7 @@ impl<'a, 'tcx> TypeComparisonContext<'a, 'tcx> {
                 target_def_id,
                 &scope_tree,
                 &outlives_env,
-                SuppressRegionErrors::default(),
+                RegionckMode::default(),
             );
 
             let err = self

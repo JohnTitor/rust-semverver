@@ -8,9 +8,10 @@ extern crate rustc_ast;
 extern crate rustc_hir;
 extern crate rustc_infer;
 extern crate rustc_mir;
+extern crate rustc_session;
 extern crate rustc_span;
-extern crate rustc_traits;
 extern crate rustc_trait_selection;
+extern crate rustc_traits;
 
 mod changes;
 mod mapping;
