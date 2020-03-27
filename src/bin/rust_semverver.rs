@@ -1,7 +1,6 @@
 #![feature(rustc_private)]
 
 extern crate rustc;
-extern crate rustc_codegen_utils;
 extern crate rustc_driver;
 extern crate rustc_errors;
 extern crate rustc_interface;
