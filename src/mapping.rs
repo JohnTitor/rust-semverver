@@ -3,15 +3,15 @@
 //! This module provides facilities to record item correspondence of various kinds, as well as a
 //! map used to temporarily match up unsorted item sequences' elements by name.
 
-use rustc::{
-    hir::exports::Export,
-    ty::{AssocKind, GenericParamDef, GenericParamDefKind},
-};
 use rustc_ast::ast::Name;
 use rustc_hir::{
     def::Res,
     def_id::{CrateNum, DefId},
     HirId,
+};
+use rustc_middle::{
+    hir::exports::Export,
+    ty::{AssocKind, GenericParamDef, GenericParamDefKind},
 };
 use std::collections::{BTreeSet, HashMap, HashSet, VecDeque};
 use std::hash::{Hash, Hasher};

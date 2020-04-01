@@ -162,7 +162,6 @@ mod full {
         };
     }
 
-    full_test!(log, "log", "0.3.4", "0.3.8", true);
     // the libc API on windows did *not* change between these versions
     full_test!(libc0, "libc", "0.2.28", "0.2.31", cfg!(windows));
     full_test!(libc1, "libc", "0.2.47", "0.2.48", true);

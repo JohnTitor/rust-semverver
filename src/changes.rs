@@ -9,8 +9,8 @@
 //! complicated by the fact that we still group changes by the item they refer to, even if it's
 //! path changes.
 
-use rustc::ty::{error::TypeError, Predicate};
 use rustc_hir::def_id::DefId;
+use rustc_middle::ty::{error::TypeError, Predicate};
 use rustc_session::Session;
 use rustc_span::symbol::Symbol;
 use rustc_span::{FileName, Span};

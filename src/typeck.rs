@@ -9,7 +9,10 @@ use crate::{
     translate::{InferenceCleanupFolder, TranslationContext},
 };
 use log::debug;
-use rustc::{
+use rustc_hir::def_id::DefId;
+use rustc_infer::infer::InferCtxt;
+use rustc_infer::traits::{FulfillmentError, Obligation, TraitEngine};
+use rustc_middle::{
     traits::ObligationCause,
     ty::{
         error::TypeError,
@@ -18,9 +21,6 @@ use rustc::{
         GenericParamDefKind, ParamEnv, Predicate, TraitRef, Ty, TyCtxt,
     },
 };
-use rustc_hir::def_id::DefId;
-use rustc_infer::infer::InferCtxt;
-use rustc_infer::traits::{FulfillmentError, Obligation, TraitEngine};
 use rustc_trait_selection::traits::FulfillmentContext;
 
 /// The context in which bounds analysis happens.
@@ -72,8 +72,8 @@ impl<'a, 'tcx> BoundContext<'a, 'tcx> {
 
     /// Register the trait bound represented by a `TraitRef`.
     pub fn register_trait_ref(&mut self, checked_trait_ref: TraitRef<'tcx>) {
-        use rustc::ty::{Binder, TraitPredicate};
         use rustc_hir::Constness;
+        use rustc_middle::ty::{Binder, TraitPredicate};
 
         let predicate = Predicate::Trait(
             Binder::bind(TraitPredicate {
@@ -185,7 +185,7 @@ impl<'a, 'tcx> TypeComparisonContext<'a, 'tcx> {
 
     /// Construct a set of subsitutions for an item, which normalizes defaults.
     pub fn compute_target_default_substs(&self, target_def_id: DefId) -> SubstsRef<'tcx> {
-        use rustc::ty::ReEarlyBound;
+        use rustc_middle::ty::ReEarlyBound;
 
         InternalSubsts::for_item(self.infcx.tcx, target_def_id, |def, _| match def.kind {
             GenericParamDefKind::Lifetime => GenericArg::from(
@@ -216,10 +216,10 @@ impl<'a, 'tcx> TypeComparisonContext<'a, 'tcx> {
         orig: Ty<'tcx>,
         target: Ty<'tcx>,
     ) -> Option<TypeError<'tcx2>> {
-        use rustc::middle::region::ScopeTree;
-        use rustc::ty::Lift;
         use rustc_infer::infer::outlives::env::OutlivesEnvironment;
         use rustc_infer::infer::{InferOk, RegionckMode};
+        use rustc_middle::middle::region::ScopeTree;
+        use rustc_middle::ty::Lift;
 
         let error = self
             .infcx
@@ -272,7 +272,7 @@ impl<'a, 'tcx> TypeComparisonContext<'a, 'tcx> {
         target_def_id: DefId,
         target_substs: SubstsRef<'tcx>,
     ) -> Option<Vec<Predicate<'tcx2>>> {
-        use rustc::ty::Lift;
+        use rustc_middle::ty::Lift;
         debug!(
             "check_bounds_error: orig env: {:?}, target did: {:?}, target substs: {:?}",
             orig_param_env, target_def_id, target_substs

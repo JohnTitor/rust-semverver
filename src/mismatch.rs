@@ -6,14 +6,14 @@
 
 use crate::mapping::IdMapping;
 use log::debug;
-use rustc::ty::{
+use rustc_hir::def::{DefKind, Res};
+use rustc_middle::ty::{
     self,
     relate::{Relate, RelateResult, TypeRelation},
     subst::SubstsRef,
     ParamEnv, Ty, TyCtxt,
     Visibility::Public,
 };
-use rustc_hir::def::{DefKind, Res};
 use std::collections::{HashMap, HashSet, VecDeque};
 
 /// A relation searching for items appearing at the same spot in a type.
@@ -49,7 +49,7 @@ impl<'a, 'tcx> MismatchRelation<'a, 'tcx> {
 
     /// Process the next pair of `DefId`s in the queue.
     pub fn process(&mut self) {
-        // use rustc::hir::def::DefKind::*;
+        // use rustc_middle::hir::def::DefKind::*;
 
         while let Some((old_res, new_res)) = self.item_queue.pop_front() {
             debug!(
@@ -85,7 +85,7 @@ impl<'a, 'tcx> MismatchRelation<'a, 'tcx> {
 
     /// Ensure that the pair of given `SubstsRef`s is suitable to be related.
     fn check_substs(&self, a_substs: SubstsRef<'tcx>, b_substs: SubstsRef<'tcx>) -> bool {
-        use rustc::ty::subst::GenericArgKind::*;
+        use rustc_middle::ty::subst::GenericArgKind::*;
 
         for (a, b) in a_substs.iter().zip(b_substs) {
             match (a.unpack(), b.unpack()) {
@@ -130,7 +130,7 @@ impl<'a, 'tcx> TypeRelation<'tcx> for MismatchRelation<'a, 'tcx> {
     }
 
     fn tys(&mut self, a: Ty<'tcx>, b: Ty<'tcx>) -> RelateResult<'tcx, Ty<'tcx>> {
-        use rustc::ty::TyKind;
+        use rustc_middle::ty::TyKind;
 
         if self.current_old_types.contains(a) || self.current_new_types.contains(b) {
             return Ok(self.tcx.types.err);

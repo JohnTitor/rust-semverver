@@ -17,7 +17,11 @@ use crate::{
     typeck::{BoundContext, TypeComparisonContext},
 };
 use log::{debug, info};
-use rustc::{
+use rustc_hir::def::{CtorKind, CtorOf, DefKind, Res, Res::Def};
+use rustc_hir::def_id::DefId;
+use rustc_hir::hir_id::HirId;
+use rustc_infer::infer::TyCtxtInferExt;
+use rustc_middle::{
     hir::exports::Export,
     ty::{
         subst::{InternalSubsts, Subst},
@@ -26,10 +30,6 @@ use rustc::{
         Visibility::Public,
     },
 };
-use rustc_hir::def::{CtorKind, CtorOf, DefKind, Res, Res::Def};
-use rustc_hir::def_id::DefId;
-use rustc_hir::hir_id::HirId;
-use rustc_infer::infer::TyCtxtInferExt;
 use rustc_mir::const_eval::is_const_fn;
 use std::collections::{BTreeMap, HashSet, VecDeque};
 
@@ -568,9 +568,9 @@ fn diff_traits<'tcx>(
     new: DefId,
     output: bool,
 ) {
-    use rustc::ty::subst::GenericArgKind::Type;
-    use rustc::ty::{ParamTy, Predicate, TyS};
     use rustc_hir::Unsafety::Unsafe;
+    use rustc_middle::ty::subst::GenericArgKind::Type;
+    use rustc_middle::ty::{ParamTy, Predicate, TyS};
 
     debug!(
         "diff_traits: old: {:?}, new: {:?}, output: {:?}",
@@ -673,8 +673,8 @@ fn diff_generics(
     old: DefId,
     new: DefId,
 ) {
-    use rustc::ty::Variance;
-    use rustc::ty::Variance::*;
+    use rustc_middle::ty::Variance;
+    use rustc_middle::ty::Variance::*;
     use std::cmp::max;
 
     fn diff_variance<'tcx>(old_var: Variance, new_var: Variance) -> Option<ChangeType<'tcx>> {
@@ -1197,7 +1197,7 @@ fn match_inherent_impl<'tcx>(
     orig_item: AssocItem,
     target_item: AssocItem,
 ) -> bool {
-    use rustc::ty::AssocKind;
+    use rustc_middle::ty::AssocKind;
 
     debug!(
         "match_inherent_impl: orig_impl/item: {:?}/{:?}, target_impl/item: {:?}/{:?}",
