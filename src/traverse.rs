@@ -1127,7 +1127,8 @@ fn is_impl_trait_public<'tcx>(tcx: TyCtxt<'tcx>, impl_def_id: DefId) -> bool {
 
     // Check if all input types of the trait implementation are public (including `Self`).
     let is_public = trait_ref
-        .input_types()
+        .substs
+        .types()
         .map(|t| type_visibility(tcx, t))
         .all(|v| v == Visibility::Public);
 
