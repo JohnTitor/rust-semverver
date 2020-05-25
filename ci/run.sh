@@ -7,7 +7,7 @@ OS=${1}
 export RUST_BACKTRACE=full
 #export RUST_TEST_NOCAPTURE=1
 
-rustup component add rustc-dev
+rustup component add rustc-dev llvm-tools-preview
 
 cargo build
 cargo test --verbose -- --nocapture
