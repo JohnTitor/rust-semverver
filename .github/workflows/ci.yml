@@ -16,7 +16,7 @@ jobs:
           os: linux
         - toolchain: x86_64-apple-darwin
           builder: macos-latest
-          macos: macos
+          os: macos
 
     name: nightly - ${{ matrix.toolchain }}
     runs-on: ${{ matrix.builder }}
