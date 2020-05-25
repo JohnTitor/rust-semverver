@@ -21,6 +21,10 @@ case "${OS}" in
         ;;
 esac
 
+if [ "${OS}" = "macos" ]; then
+    exit 0
+fi
+
 # install
 mkdir -p ~/rust/cargo/bin
 cp target/debug/cargo-semverfork ~/rust/cargo/bin

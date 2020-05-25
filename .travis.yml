@@ -7,15 +7,19 @@ matrix:
     # Targets
     - name: "linux"
       os: linux
-      env: RUST_BACKTRACE=full
+      env:
+        - RUST_BACKTRACE=full
+        - HOST_OS=linux
     - name: "osx"
       os: osx
       osx_image: xcode10.3
-      env: RUST_BACKTRACE=full
+      env:
+        - RUST_BACKTRACE=full
+        - HOST_OS=macos
 
     - name: "Shellcheck"
       script:
         - shellcheck --version
         - shellcheck ci/*.sh
 
-script: sh ci/run.sh
+script: sh ci/run.sh $HOST_OS
