@@ -23,7 +23,7 @@ name = "rust-semverfork-public"
 path = "src/bin/rust_semver_public.rs"
 
 [dependencies]
-cargo = "0.44"
+cargo = "0.45"
 crates-io = "0.32"
 curl = "0.4.21"
 env_logger = "0.7"
