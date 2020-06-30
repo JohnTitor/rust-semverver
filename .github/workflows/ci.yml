@@ -27,7 +27,7 @@ jobs:
       - name: Install nightly
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly-${{ matrix.toolchain }}
+          toolchain: nightly-2020-06-18-${{ matrix.toolchain }}
           profile: minimal
           components: rustc-dev
           override: true
